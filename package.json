@@ -1,0 +1,20 @@
+{
+  "name": "brix",
+  "version": "0.0.0-alpha",
+  "description": "Brix - Open Source Desktop Application by Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "packager": "electron-packager ./ Brix --platform=all --arch=x64 --electron-version=9.1.1 --overwrite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kousaten/brix.git"
+  },
+  "author": "Kousaten",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/kousaten/brix/issues"
+  },
+  "homepage": "https://github.com/kousaten/brix#readme"
+}

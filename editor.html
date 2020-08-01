@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="muicss/mui.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/editor.css" rel="stylesheet" type="text/css" />
+    <link href="css/about.css" rel="stylesheet" type="text/css" />
+    <script src="muicss/mui.min.js"></script>
+    <script src="js/file-utils.js"></script>
+</head>
+
+<script>
+    var s = window.location.search
+    var path = s.substr(6, s.length)
+    var json = JSON.parse(new File(path).read())
+
+    var spl = path.split("/")
+    var doc = spl[spl.length-1]
+</script>
+
+<body>
+    <div id="sidebar">
+        <div class="mui--text-white mui--text-display1 mui--align-vertical">Editor</div>
+        <p><script>document.write(doc)</script></p>
+        <button onclick="window.location='index.html'" class="mui-btn mui-btn--small mui-btn--primary">Home</button>
+        <button onclick="onSaveDocument()" class="mui-btn mui-btn--small mui-btn--primary">Save</button>
+    </div>
+    <textarea id="edit-zone"></textarea>
+</body>
+
+<script>
+    document.getElementById("edit-zone").innerHTML = json.elements[0].content
+    function onSaveDocument() {
+        var text = document.getElementById("edit-zone").value
+        var f = new File(path)
+        json.elements[0].content = text
+        f.write(JSON.stringify(json))
+        window.alert("Successfully saved")
+    }
+</script>
+
+</html>

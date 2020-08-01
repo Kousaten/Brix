@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="muicss/mui.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/about.css" rel="stylesheet" type="text/css" />
+    <script src="muicss/mui.min.js"></script>
+    <script src="js/file-utils.js"></script>
+    <script src="js/constraints.js"></script>
+    <script src="js/string-utils.js"></script>
+</head>
+
+<body>
+    <div id="sidebar">
+        <div class="mui--text-white mui--text-display1 mui--align-vertical">New Document</div>
+        <div>
+            <button onclick="window.location='index.html'" class="mui-btn mui-btn--small mui-btn--primary">CANCEL</button>
+            <br/>
+            <button onclick="onCreateDocument()" class="mui-btn mui-btn--small mui-btn--primary">CREATE</button>
+        </div>
+    </div>
+    <div id="content" class="mui-container-fluid">
+        <div class="mui-row">
+            <div class="mui-col-sm-10 mui-col-sm-offset-1">
+                <br/>
+                <br/>
+                <div class="mui--text-black-54 mui--text-body2">DOCUMENT INFORMATION</div>
+                <div class="mui-divider"></div>
+                <div class="mui-textfield mui-textfield--float-label">
+                    <input id="document-name" type="text"/>
+                    <label>Document Name</label>
+                </div>
+                <div class="mui-textfield mui-textfield--float-label">
+                    <input id="document-description" type="text"/>
+                    <label>Document Description</label>
+                </div>
+                <div class="mui-textfield mui-textfield--float-label">
+                    <input id="document-path" type="text"/>
+                    <label>Document Path</label>
+                </div>
+                <p style="color: gray;">If you're using Unix OS such as macOS and Linux. Symbol "~" is not able. </p>
+                <br/>
+                <br/>
+                <div class="mui--text-black-54 mui--text-body2">ADVANCED SETTINGS</div>
+                <div class="mui-divider"></div>
+                <p style="color: gray;">There's no advanced settings yet.</p>
+                <br/>
+                <br/>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+	const { shell } = require("electron")
+	function openExternal(url) {
+		shell.openExternal(url)
+	}
+    function onCreateDocument() {
+        var name = document.getElementById("document-name").value
+        var desc = document.getElementById("document-description").value
+        var path = document.getElementById("document-path").value
+        if (name==""||name==undefined) {
+            return window.alert("Document Name can't be empty")
+        }
+        if (desc==""||desc==undefined) {
+            return window.alert("Document Description can't be empty")
+        }
+        var p
+        if (!path.endsWith("/")) {
+            if (path!="") {
+                p = path+"/"+name+".brp"
+            } else {
+                p = path+name+".brp"
+            }
+        } else {
+            p = path+name+".brp"
+        }
+        var file = new File(p)
+        var isExists = file.isExists(function (isExists) {
+            if (isExists) {
+                window.alert('File already exists')
+            } else {
+                var json = {
+                    "name": name,
+                    "description": desc,
+                    "version": version,
+                    "isSnapshot": isSnapshot,
+                    "elements": [
+                        {
+                            "type": "text",
+                            "content": "Hello, World!",
+                        },
+                    ],
+                }
+                try {
+                    file.write(JSON.stringify(json))
+                    window.alert("Create successful. File Path: "+p)
+                    window.location = "index.html"
+                } catch (err) {
+                    window.alert(err)
+                }
+            }
+        })
+    }
+</script>
+
+</html>
