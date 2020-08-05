@@ -35,6 +35,24 @@
 - 进入项目目录后输入`npm start`来启动Brix
 - 或者使用Releases中的归档包安装并启动
 
+## 图片展示
+
+### 首页
+
+![demo-0.jpg](assets/demo-0.jpg)
+
+### 关于
+
+![demo-1.jpg](assets/demo-1.jpg)
+
+### 新建文档
+
+![demo-2.jpg](assets/demo-2.jpg)
+
+### 文档编辑
+
+![demo-3.jpg](assets/demo-3.jpg)
+
 ## 项目目录结构简述
 <!-- js文件是作为相关源文件还是脚本作用的呢？不应当采用js的名称，可能采用src或者script更好，这一点可以讨论-->
 

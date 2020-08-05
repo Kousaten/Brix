@@ -37,6 +37,24 @@ This project is developed using [node](nodejs.org) and [npm](npmjs.org).
 
 - Or use the archive package in Releases to install and start
 
+## Show as photos
+
+### Index
+
+![demo-0.jpg](assets/demo-0.jpg)
+
+### About
+
+![demo-1.jpg](assets/demo-1.jpg)
+
+### New Document
+
+![demo-2.jpg](assets/demo-2.jpg)
+
+### Document Editor
+
+![demo-3.jpg](assets/demo-3.jpg)
+
 ## Brief description of project directory structure
 <!-- js文件是作为相关源文件还是脚本作用的呢？不应当采用js的名称，可能采用src或者script更好，这一点可以讨论-->
 
