@@ -11,17 +11,17 @@
 
 简体中文 | [English](README.en.md)
 
-你可以使用Brix编写一个文档。添加自定义的组件或已定义的组件，使你的文档更加丰富。
-用于展示超出单个文本的丰富内容，编写、设计和分享你的内容。
-使用json为原格式的brp文件(全称 Brix Project)是一种类似Markdown的文件格式，但并不轻量级也不好用(目前来说)。
+你可以使用Brix编写一个文档。添加自定义的组件或已定义的组件，使你的文档更加丰富
+用于展示超出单个文本的丰富内容，编写、设计和分享你的内容
+使用json为原格式的brp文件(全称 Brix Project)是一种类似Markdown的文件格式，但并不轻量级也不好用(目前来说)
 
 ## 背景
 
-让轻度文档编辑和简单的脚本程序编写更加方便是本项目的初衷，同时我们希望整合类似Office全家桶的内容，提供方便文档编写、设计和分享的功能。
+让轻度文档编辑和简单的脚本程序编写更加方便是本项目的初衷，同时我们希望整合类似Office全家桶的内容，提供方便文档编写、设计和分享的功能
 
 ## 注意
 
-本项目正在编写中，大部分功能无法实现。
+本项目正在编写中，大部分功能无法实现
 
 ## 功能介绍
 
@@ -29,12 +29,10 @@
 
 ## 使用说明
 
-本项目使用 [node](nodejs.org) 与 [npm](npmjs.org) 开发。
+本项目使用 [node](https://nodejs.org/en/) 与 [npm](https://www.npmjs.com/) 开发
 
-- 在你的电脑上安装node.js并使用以下命令来全局安装electron：
-    `npm install electron -g`
+- 在你的电脑上安装node.js并使用`npm install electron -g`命令来全局安装electron
 - 进入项目目录后输入`npm start`来启动Brix
-
 - 或者使用Releases中的归档包安装并启动
 
 ## 项目目录结构简述
@@ -66,6 +64,6 @@
 - [BobAnkh](https://github.com/BobAnkh)
 - [ICE-Flowey](https://github.com/ICE-Flowey) （已离开）
 
-## 协议
+## 使用许可
 
-- Apache 2.0 LICENSE
+[Apache-2.0](LICENSE)
