@@ -11,15 +11,32 @@
 [简体中文](README.md) | [English](README-en.md)
 
 你可以使用Brix编写一个文档。添加自定义的组件或已定义的组件，使你的文档更加丰富。
+用于展示超出单个文本的丰富内容，编写、设计和分享你的内容。
+使用json为原格式的brp文件(全称 Brix Project)是一种类似Markdown的文件格式，但并不轻量级也不好用(目前来说)。
 
 本项目正在编写中，大部分功能无法实现。
 
-## 使用方法
-在你的电脑上安装node.js并全局安装electron
-进入项目目录后输入`npm start`来启动Brix
+## 安装
+本项目使用 [node](nodejs.org) 与 [npm](npmjs.org) 开发。
+- 在你的电脑上安装node.js并使用以下命令来全局安装electron：
+    `npm install electron -g`
+- 进入项目目录后输入`npm start`来启动Brix
 
-- 后期会打包方便大家下载使用
+- 或者使用Releases中的归档包安装并启动
 
-## 贡献者
-- [ResetPower](https://github.com/orgs/Kousaten/people/ResetPower)
-- [ICE-Flowey](https://github.com/orgs/Kousaten/people/ICE-Flowey)
+## 项目目录结构简述
+- assets/ : 项目或项目中的文档等需要使用到的资源文件
+- css/ : 项目中HTML文件需要使用到的CSS文件
+- js/ : 项目中HTML文件需要使用到的JavaScript文件
+- muicss/ : 项目引用了muicss库，为了快速加载，将muicss放入项目中
+
+## 更新日志
+### Snapshot 20w31a
+- 本软件的第一个版本
+
+## 将来规划 (For Snapshot 20w32a)
+- 实现组件列表
+- 实现登录/注册
+
+## 协议
+- Apache 2.0 LICENSE
