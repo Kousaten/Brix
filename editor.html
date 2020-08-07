@@ -6,10 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="muicss/mui.min.css" rel="stylesheet" type="text/css" />
-    <link href="css/editor.css" rel="stylesheet" type="text/css" />
     <link href="css/about.css" rel="stylesheet" type="text/css" />
     <script src="muicss/mui.min.js"></script>
     <script src="js/file-utils.js"></script>
+    <script src="js/rendering.js"></script>
+    <script src="jquery/jquery.min.js"></script>
+    <style>
+        #sidebar {
+            background-color: lightgrey;
+            padding: 15px;
+        }
+
+        footer {
+            box-sizing: border-box;
+            height: 20px;
+            width: 100%;
+            background-color: lightblue;
+            border-top: 1px solid #e0e0e0;
+            position: fixed;
+            bottom: 0px;
+        }
+    </style>
 </head>
 
 <script>
@@ -18,25 +35,41 @@
     var json = JSON.parse(new File(path).read())
 
     var spl = path.split("/")
-    var doc = spl[spl.length-1]
+    var doc = spl[spl.length - 1]
 </script>
 
 <body>
     <div id="sidebar">
-        <div class="mui--text-white mui--text-display1 mui--align-vertical">Editor</div>
-        <p><script>document.write(doc)</script></p>
+        <h1>Editor</h1>
+        <p>
+            <script>document.write(doc)</script>
+        </p>
         <button onclick="window.location='index.html'" class="mui-btn mui-btn--small mui-btn--primary">Home</button>
         <button onclick="onSaveDocument()" class="mui-btn mui-btn--small mui-btn--primary">Save</button>
+        <br />
+        <br />
+        <div class="mui-divider"></div>
+        <div>
+            <div style="float: left; margin-top: 10px; font-size: 30; width: 60%; height: 30px;">Text</div><div style="float: right; height: 30px;"><button class="mui-btn mui-btn--small mui-btn--flat mui-btn--primary">ADD</button></div>
+            <div style="float: left; margin-top: 10px; font-size: 30; width: 60%; height: 30px;">Title</div><div style="float: right; height: 30px;"><button class="mui-btn mui-btn--small mui-btn--flat mui-btn--primary">ADD</button></div>
+            <div style="float: left; margin-top: 10px; font-size: 30; width: 60%; height: 30px;">Highlight</div><div style="float: right; height: 30px;"><button class="mui-btn mui-btn--small mui-btn--flat mui-btn--primary">ADD</button></div>
+            <div style="float: left; margin-top: 10px; font-size: 30; width: 60%; height: 30px;">Hyper Link</div><div style="float: right; height: 30px;"><button class="mui-btn mui-btn--small mui-btn--flat mui-btn--primary">ADD</button></div>
+            <div style="float: left; margin-top: 10px; font-size: 30; width: 60%; height: 30px;">Quote</div><div style="float: right; height: 30px;"><button class="mui-btn mui-btn--small mui-btn--flat mui-btn--primary">ADD</button></div>
+        </div>
     </div>
-    <textarea id="edit-zone"></textarea>
+    <div id="content" class="mui-container-fluid" style="margin-left: 18%;">
+    </div>
+    <footer>
+        <div class="mui-container mui--text-center mui--text-bottom">
+            Hello, World!
+        </div>
+    </footer>
 </body>
 
 <script>
-    document.getElementById("edit-zone").innerHTML = json.elements[0].content
+    document.getElementById("content").innerHTML = render(json)
     function onSaveDocument() {
-        var text = document.getElementById("edit-zone").value
         var f = new File(path)
-        json.elements[0].content = text
         f.write(JSON.stringify(json))
         window.alert("Successfully saved")
     }

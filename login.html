@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdn.muicss.com/mui-latest/extra/mui-colors.min.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="https://cdn.muicss.com/mui-latest/extra/mui-combined.min.js"></script>
+    <script src="js/http.js"></script>
+    <script src="js/properties.js"></script>
+    <script src="js/file-utils.js"></script>
+</head>
+
+<body>
+    <header class="mui-appbar mui--z1">
+        <div class="mui-container">
+            <table>
+                <tr class="mui--appbar-height">
+                    <td class="mui--text-title">Brix</td>
+                    <td class="mui--text-right">
+                        <ul class="mui-list--inline mui--text-body2">
+                            <li><a href="javascript:window.alert('Sorry, it\'s not currently supported.')"> Forgot
+                                    Password</a></li>
+                            <li><a href="javascript:window.location='register.html'"><i
+                                        class="fa fa-user" aria-hidden="true"></i> Register</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </header>
+    <div id="content-wrapper" class="mui--text-center">
+        <div class="mui--appbar-height"></div>
+        <br>
+        <br>
+        <div class="mui--text-display3 row wow zoomInDown">Login</div>
+        <br>
+        <br>
+        <div class="mui-panel" style="width: 35%; margin-left: auto; margin-right: auto;">
+            <div class="mui-textfield mui-textfield--float-label">
+                <input type="text" id="un">
+                <label>Username</label>
+            </div>
+            <div class="mui-textfield mui-textfield--float-label">
+                <input type="password" id="pw">
+                <label>Password</label>
+            </div>
+            <button class="mui-btn mui-btn--raised" id="cancel" onclick="window.location = 'index.html'">Cancel</button>
+            <button class="mui-btn mui-btn--raised mui-btn--accent" id="login">Login</button>
+        </div>
+        <br>
+        <br>
+        <i class="fa fa-university fa-5x mui--color-pink-A100 mui--text-display3 row wow zoomIn" aria-hidden="true"></i>
+    </div>
+    <footer>
+        <div class="mui-container mui--text-center mui--text-bottom">
+            Powered by <a href="javascript:openExternal('https://github.com/Kousaten')">Kousaten Organization</a>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script>
+        new WOW().init();
+
+        const { shell } = require("electron")
+        function openExternal(url) {
+            shell.openExternal(url)
+        }
+
+        document.getElementById("login").onclick = function (ev) {
+            var un = document.getElementById("un").value
+            var pw = document.getElementById("pw").value
+            httpPost('login', '{"username": "' + un + '", "password": "' + pw + '"}', function (data) {
+                if (data.toString().substring(0, 1) == "4") {
+                    window.alert(data)
+                } else {
+                    var jobj = JSON.parse(data)
+                    saveAccount(un, jobj.accessToken)
+                    window.location = "index.html"
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

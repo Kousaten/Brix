@@ -9,8 +9,11 @@
 	<script src="muicss/mui.min.js"></script>
 	<link href="css/index.css" rel="stylesheet" type="text/css" />
 	<script src="js/file-utils.js"></script>
+	<script src="js/properties.js"></script>
+	<script src="js/http.js"></script>
 	<title>Brix</title>
 	<script>
+		checkProperty()
 		function onNewDocument() {
 			window.location = "new-document.html"
 		}
@@ -31,6 +34,43 @@
 		function onOpenSettingPage() {
 			window.location = "settings.html"
 		}
+		var a = getAccount()
+		if (a.username != null && a.accessToken != null) {
+			httpPost('validate', JSON.stringify({
+				"username": a.username,
+				"accessToken": a.accessToken,
+			}), function (data) {
+				var jobj = JSON.parse(data)
+				if (jobj.status == "effective") {
+					var login = document.getElementById("login")
+					login.innerHTML = a.username
+					login.onclick = function (ev) {
+						activateModal();
+					}
+				}
+			})
+		}
+		function activateModal() {
+			var modalEl = document.createElement('div');
+			modalEl.innerHTML = 
+`<div>
+	<button class="mui-btn mui-btn--small mui-btn--primary mui-btn--danger" onclick="onSignOut()">Sign Out</button>
+	<button class="mui-btn mui-btn--small mui-btn--primary mui-btn--accent" onclick="mui.overlay('off')">Cancel</button>
+</div>`
+			modalEl.style.width = '200px';
+			modalEl.style.height = '50px';
+			modalEl.style.margin = '200px auto';
+			modalEl.style.backgroundColor = '#fff';
+
+			// show modal
+			mui.overlay('on', modalEl);
+		}
+
+		function onSignOut() {
+			saveAccount(null, null)
+			window.location = "index.html"
+			mui.overlay('off')
+		}
 	</script>
 </head>
 
@@ -46,12 +86,15 @@
 		<div class="mui-appbar mui--appbar-line-height">
 			<div class="mui-container-fluid">
 				<h1>Brix</h1>
-				<a href="#" style="color: white; margin-right: 20px;"
-					onclick="openExternal('https://github.com/Kousaten/')">Developer</a>
-				<a href="#" style="color: white; margin-right: 20px;"
-					onclick="openExternal('https://github.com/Kousaten/Brix')">Github</a>
-				<a href="#" style="color: white; margin-right: 20px;"
-					onclick="window.alert('This function is not currently supported.')">Login</a>
+				<div style="float: left;">
+					<a href="#" style="color: white; margin-right: 20px;"
+						onclick="openExternal('https://github.com/Kousaten/')">Developer</a>
+					<a href="#" style="color: white; margin-right: 20px;"
+						onclick="openExternal('https://github.com/Kousaten/Brix')">Github</a>
+				</div>
+				<div style="float: right;">
+					<a href="#" style="color: white; margin-right: 20px;" onclick="onLogin()" id="login">Login</a>
+				</div>
 			</div>
 		</div>
 	</header>
@@ -76,6 +119,9 @@
 			const { shell } = require("electron")
 			function openExternal(url) {
 				shell.openExternal(url)
+			}
+			function onLogin() {
+				window.location = "login.html"
 			}
 		</script>
 </body>
