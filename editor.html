@@ -6,11 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="muicss/mui.min.css" rel="stylesheet" type="text/css" />
-    <link href="css/about.css" rel="stylesheet" type="text/css" />
+    <link href="css/editor.css" rel="stylesheet" type="text/css" />
     <script src="muicss/mui.min.js"></script>
     <script src="js/file-utils.js"></script>
+    <script src="js/string-buffer.js"></script>
     <script src="js/rendering.js"></script>
-    <script src="jquery/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         #sidebar {
             background-color: lightgrey;
@@ -21,7 +22,7 @@
             box-sizing: border-box;
             height: 20px;
             width: 100%;
-            background-color: lightblue;
+            background-color: #2ca9e1;
             border-top: 1px solid #e0e0e0;
             position: fixed;
             bottom: 0px;
@@ -30,48 +31,173 @@
 </head>
 
 <script>
+    const { remote } = require('electron');
+    const { Menu } = remote;
+
     var s = window.location.search
     var path = s.substr(6, s.length)
     var json = JSON.parse(new File(path).read())
 
     var spl = path.split("/")
     var doc = spl[spl.length - 1]
+
+    var lastSelected = undefined
+    var selected = undefined
+    function changeSelected(newValue) {
+        lastSelected = selected
+        selected = newValue
+        if (selected != undefined) {
+            document.getElementById("selected").innerHTML = "Selected #" + selected
+        } else {
+            document.getElementById("selected").innerHTML = ""
+        }
+        updateToolbar(newValue)
+    }
 </script>
 
 <body>
     <div id="sidebar">
-        <h1>Editor</h1>
-        <p>
-            <script>document.write(doc)</script>
-        </p>
-        <button onclick="window.location='index.html'" class="mui-btn mui-btn--small mui-btn--primary">Home</button>
-        <button onclick="onSaveDocument()" class="mui-btn mui-btn--small mui-btn--primary">Save</button>
+        <div class="mui-container" style="height: 15px;">
+            <button onclick="window.location='index.html'" class="mui-btn mui-btn--small"
+                style="background: transparent;"><i class="material-icons">arrow_back</i></button>
+        </div>
         <br />
         <br />
         <div class="mui-divider"></div>
         <div>
-            <div style="float: left; margin-top: 10px; font-size: 30; width: 60%; height: 30px;">Text</div><div style="float: right; height: 30px;"><button class="mui-btn mui-btn--small mui-btn--flat mui-btn--primary">ADD</button></div>
-            <div style="float: left; margin-top: 10px; font-size: 30; width: 60%; height: 30px;">Title</div><div style="float: right; height: 30px;"><button class="mui-btn mui-btn--small mui-btn--flat mui-btn--primary">ADD</button></div>
-            <div style="float: left; margin-top: 10px; font-size: 30; width: 60%; height: 30px;">Highlight</div><div style="float: right; height: 30px;"><button class="mui-btn mui-btn--small mui-btn--flat mui-btn--primary">ADD</button></div>
-            <div style="float: left; margin-top: 10px; font-size: 30; width: 60%; height: 30px;">Hyper Link</div><div style="float: right; height: 30px;"><button class="mui-btn mui-btn--small mui-btn--flat mui-btn--primary">ADD</button></div>
-            <div style="float: left; margin-top: 10px; font-size: 30; width: 60%; height: 30px;">Quote</div><div style="float: right; height: 30px;"><button class="mui-btn mui-btn--small mui-btn--flat mui-btn--primary">ADD</button></div>
+            <div class="mui-container-fluid">
+                <button class="mui-btn mui-btn--small mui-btn--primary mui-btn--flat"
+                    onclick="add('text')">Text</button><br />
+                <button class="mui-btn mui-btn--small mui-btn--primary mui-btn--flat" onclick="expand('title')">Title</button><br />
+                <button class="mui-btn mui-btn--small mui-btn--primary mui-btn--flat"
+                    onclick="add('quote')">Quote</button><br />
+                <button class="mui-btn mui-btn--small mui-btn--primary mui-btn--flat" onclick="">Hyper
+                    Link</button><br />
+                <button class="mui-btn mui-btn--small mui-btn--primary mui-btn--flat" onclick="">Image</button><br />
+            </div>
         </div>
     </div>
-    <div id="content" class="mui-container-fluid" style="margin-left: 18%;">
+    <div class="mui-appbar" style="padding-left: 250px; padding-right: 50px;">
+        <table width="100%">
+            <tr style="vertical-align:middle;">
+                <td class="mui--appbar-height">
+                    <!-- Left things on AppBar place here -->
+                </td>
+                <td class="mui--appbar-height" align="right">
+                    <button onclick="onSaveDocument();window.alert('Successfully saved');"
+                        class="mui-btn mui-btn--small" style="background: transparent;"><i
+                            class="material-icons">save</i></button>
+                    <button class="mui-btn mui-btn--small" style="background: transparent;"
+                        onclick="window.alert('No settings yet')"><i class="material-icons">settings</i></button>
+                    <button class="mui-btn mui-btn--small" style="background: transparent;" onclick="toggleToolbar()"><i
+                            class="material-icons">build</i></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="mui-container-fluid" style="padding-left: 50px;">
+        <div id="toolbar">
+            Loading...
+        </div>
+        <div id="content">
+            Loading...
+        </div>
     </div>
     <footer>
         <div class="mui-container mui--text-center mui--text-bottom">
-            Hello, World!
+            <div>
+                <div style="float: left;">
+                    <script>document.write(doc)</script>
+                </div>
+                <div style="float: left; padding-left: 20px;" id="selected"></div>
+                <div style="width: auto;"></div>
+                <div style="float: right;" id="elements"><script>document.write(json.elements.length)</script> Elements</div>
+            </div>
         </div>
     </footer>
 </body>
 
 <script>
-    document.getElementById("content").innerHTML = render(json)
+    function refresh() {
+        document.getElementById("content").innerHTML = render(json, false)
+        activeEvents()
+    }
+    refresh()
     function onSaveDocument() {
         var f = new File(path)
         f.write(JSON.stringify(json))
-        window.alert("Successfully saved")
+    }
+
+    var titles = Menu.buildFromTemplate([
+        {
+            label: "Big Title",
+            click: function (ev) {
+                add("big-title")
+            },
+        },
+        {
+            label: "Medium Title",
+            click: function (ev) {
+                add("medium-title")
+            },
+        },
+        {
+            label: "Small Title",
+            click: function (ev) {
+                add("small-title")
+            },
+        },
+    ])
+
+    function expand(type) {
+        if (type=="title") {
+            titles.popup()
+        }
+    }
+
+    function add(type) {
+        json.elements.push({
+            type: type,
+            content: "Hello, World!",
+        })
+        onSaveDocument()
+        refresh()
+        document.getElementById("elements").innerHTML = json.elements.length + " Elements"
+    }
+
+    function toggleToolbar() {
+        let tb = document.getElementById("toolbar")
+        if (tb.style.width == "0px") {
+            tb.style.width = "250px"
+        } else {
+            tb.style.width = "0px"
+        }
+    }
+
+    changeSelected(undefined)
+
+    function onEditContent(index, content) {
+        json.elements[index].content = content
+        refresh()
+        onSaveDocument()
+    }
+
+    function updateToolbar(selected) {
+        let tb = document.getElementById("toolbar")
+        if (selected!=undefined) {
+            tb.innerHTML =
+`<div>
+    <h2>Element #`+ selected + `</h2>
+    <p>Type: `+ json.elements[selected].type + `</p>
+    <div class="mui-textfield mui-textfield--float-label">
+        <input type="text" value="`+json.elements[selected].content+`" id="tbe-`+selected+`"/>
+        <label>Content</label>
+    </div>
+    <button class="mui-btn mui-btn--accent" style="margin-left: 50px" onclick="onEditContent(`+selected+`, document.getElementById('tbe-`+selected+`').value)">Change</button>
+</div>`
+        } else {
+            tb.innerHTML = "Nothing selected"
+        }
     }
 </script>
 
