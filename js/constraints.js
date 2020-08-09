@@ -1,3 +1,3 @@
-const version = "20w31a"
-const date = "July 31, 2020"
+const version = "v0.0.0-alpha.0"
+const date = "August 8, 2020"
 const isSnapshot = true
