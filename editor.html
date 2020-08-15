@@ -11,23 +11,8 @@
     <script src="js/file-utils.js"></script>
     <script src="js/string-buffer.js"></script>
     <script src="js/rendering.js"></script>
+    <script src="js/dialog.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        #sidebar {
-            background-color: lightgrey;
-            padding: 15px;
-        }
-
-        footer {
-            box-sizing: border-box;
-            height: 20px;
-            width: 100%;
-            background-color: #2ca9e1;
-            border-top: 1px solid #e0e0e0;
-            position: fixed;
-            bottom: 0px;
-        }
-    </style>
 </head>
 
 <script>
@@ -57,23 +42,20 @@
 
 <body>
     <div id="sidebar">
-        <div class="mui-container" style="height: 15px;">
+        <div class="mui-container" style="height: 14px;">
             <button onclick="window.location='index.html'" class="mui-btn mui-btn--small"
-                style="background: transparent;"><i class="material-icons">arrow_back</i></button>
+                style="background: transparent; color: white;"><i class="material-icons">arrow_back</i></button>
         </div>
         <br />
         <br />
         <div class="mui-divider"></div>
         <div>
             <div class="mui-container-fluid">
-                <button class="mui-btn mui-btn--small mui-btn--primary mui-btn--flat"
-                    onclick="add('text')">Text</button><br />
-                <button class="mui-btn mui-btn--small mui-btn--primary mui-btn--flat" onclick="expand('title')">Title</button><br />
-                <button class="mui-btn mui-btn--small mui-btn--primary mui-btn--flat"
-                    onclick="add('quote')">Quote</button><br />
-                <button class="mui-btn mui-btn--small mui-btn--primary mui-btn--flat" onclick="">Hyper
+                <button class="mui-btn mui-btn--small mui-btn--flat" onclick="add('text')">Text</button><br />
+                <button class="mui-btn mui-btn--small mui-btn--flat" onclick="expand('title')">Title</button><br />
+                <button class="mui-btn mui-btn--small mui-btn--flat" onclick="add('quote')">Quote</button><br />
+                <button class="mui-btn mui-btn--small mui-btn--flat" onclick="dText('hyperlink')">Hyper
                     Link</button><br />
-                <button class="mui-btn mui-btn--small mui-btn--primary mui-btn--flat" onclick="">Image</button><br />
             </div>
         </div>
     </div>
@@ -84,13 +66,26 @@
                     <!-- Left things on AppBar place here -->
                 </td>
                 <td class="mui--appbar-height" align="right">
-                    <button onclick="onSaveDocument();window.alert('Successfully saved');"
-                        class="mui-btn mui-btn--small" style="background: transparent;"><i
-                            class="material-icons">save</i></button>
-                    <button class="mui-btn mui-btn--small" style="background: transparent;"
-                        onclick="window.alert('No settings yet')"><i class="material-icons">settings</i></button>
-                    <button class="mui-btn mui-btn--small" style="background: transparent;" onclick="toggleToolbar()"><i
-                            class="material-icons">build</i></button>
+                    <div class="tooltip">
+                        <button onclick="onSaveDocument();window.alert('Successfully saved');"
+                            class="mui-btn mui-btn--small" style="background: transparent; color: white;"><i
+                                class="material-icons">save</i></button><span class="tooltiptext">Save</span>
+                    </div>
+                    <div class="tooltip">
+                        <button onclick="onPreview()" class="mui-btn mui-btn--small"
+                            style="background: transparent; color: white;"><i
+                                class="material-icons">preview</i></button><span class="tooltiptext">Preview</span>
+                    </div>
+                    <div class="tooltip">
+                        <button class="mui-btn mui-btn--small" style="background: transparent; color: white;"
+                            onclick="window.alert('No settings yet')"><i
+                                class="material-icons">settings</i></button><span class="tooltiptext">Settings</span>
+                    </div>
+                    <div class="tooltip">
+                        <button class="mui-btn mui-btn--small" style="background: transparent; color: white;"
+                            onclick="toggleToolbar()"><i class="material-icons">build</i></button><span
+                            class="tooltiptext">ToolBar</span>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -111,15 +106,17 @@
                 </div>
                 <div style="float: left; padding-left: 20px;" id="selected"></div>
                 <div style="width: auto;"></div>
-                <div style="float: right;" id="elements"><script>document.write(json.elements.length)</script> Elements</div>
+                <div style="float: right;" id="elements">
+                    <script>document.write(json.elements.length)</script> Elements</div>
             </div>
         </div>
     </footer>
 </body>
 
 <script>
+
     function refresh() {
-        document.getElementById("content").innerHTML = render(json, false)
+        document.getElementById("content").innerHTML = render(json)
         activeEvents()
     }
     refresh()
@@ -150,8 +147,50 @@
     ])
 
     function expand(type) {
-        if (type=="title") {
+        if (type == "title") {
             titles.popup()
+        }
+    }
+
+    function onNewHyperlink(t, a) {
+        json.elements.push({
+            type: "hyperlink",
+            content: t + ";" + a,
+            contentT: t,
+            contentA: a,
+        })
+        onSaveDocument()
+        refresh()
+        document.getElementById("elements").innerHTML = json.elements.length + " Elements"
+    }
+
+    function dText(type) {
+        if (type == "hyperlink") {
+            var childEl = document.createElement('div');
+            childEl.style.width = '400px';
+            childEl.style.height = '300px';
+            childEl.style.margin = '100px auto';
+            childEl.style.backgroundColor = '#fff';
+            childEl.innerHTML =
+                `<div style="margin=10px 10px 10px 10px;">
+    <h2>Please input text and address of the hyperlink</h2>
+    <div class="mui-textfield mui-textfield--float-label">
+        <input type="text" id="d0">
+        <label>Text</label>
+    </div>
+    <div class="mui-textfield mui-textfield--float-label">
+        <input type="text" id="d1">
+        <label>Address</label>
+    </div>
+    <div>
+        <div style="width: auto;"></div>
+        <div style="float: right;" id="elements">
+            <button class="mui-btn mui-btn--small mui-btn--accent" onclick="mui.overlay('off');">Cancel</button>
+            <button class="mui-btn mui-btn--small mui-btn--accent" onclick="onNewHyperlink(document.getElementById('d0').value, document.getElementById('d1').value); mui.overlay('off');">OK</button>
+        </div>
+    </div>
+</div>`
+            mui.overlay('on', childEl);
         }
     }
 
@@ -167,7 +206,8 @@
 
     function toggleToolbar() {
         let tb = document.getElementById("toolbar")
-        if (tb.style.width == "0px") {
+        let w = tb.style.width
+        if (w == "0px" || w == "") {
             tb.style.width = "250px"
         } else {
             tb.style.width = "0px"
@@ -176,28 +216,73 @@
 
     changeSelected(undefined)
 
+    function onEditDContent(index, tbeT, tbeA) {
+        var el = json.elements[index]
+        el.content = tbeT + ";" + tbeA
+        el.contentT = tbeT
+        el.contentA = tbeA
+        refresh()
+        onSaveDocument()
+    }
+
     function onEditContent(index, content) {
         json.elements[index].content = content
         refresh()
         onSaveDocument()
     }
 
+    function onRemoveElement(index) {
+        json.elements.splice(index, 1)
+        document.getElementById("elements").innerHTML = json.elements.length + " Elements"
+        refresh()
+        onSaveDocument()
+    }
+
     function updateToolbar(selected) {
         let tb = document.getElementById("toolbar")
-        if (selected!=undefined) {
-            tb.innerHTML =
-`<div>
-    <h2>Element #`+ selected + `</h2>
-    <p>Type: `+ json.elements[selected].type + `</p>
+        if (selected != undefined) {
+            if (json.elements[selected].type == "hyperlink") {
+                tb.innerHTML =
+                    `<div style="padding-left: 20px; padding-right: 20px;">
+    <h2 style="color: white;">Element #`+ selected + `</h2>
+    <p style="color: white;">Type: `+ json.elements[selected].type + `</p>
     <div class="mui-textfield mui-textfield--float-label">
-        <input type="text" value="`+json.elements[selected].content+`" id="tbe-`+selected+`"/>
+        <input type="text" value="`+ json.elements[selected].contentT + `" id="tbeT-` + selected + `"/>
+        <label>Text</label>
+    </div>
+    <div class="mui-textfield mui-textfield--float-label">
+        <input type="text" value="`+ json.elements[selected].contentA + `" id="tbeA-` + selected + `"/>
+        <label>Address</label>
+    </div>
+    <div>
+        <button class="mui-btn mui-btn--accent" onclick="onEditDContent(`+ selected + `, document.getElementById('tbeT-` + selected + `').value, document.getElementById('tbeA-` + selected + `').value)">Change</button>
+        <br/>
+        <button class="mui-btn mui-btn--accent" onclick="onRemoveElement(`+ selected + `)">Remove</button>
+    </div>
+</div>`
+            } else {
+                tb.innerHTML =
+                    `<div style="padding-left: 20px; padding-right: 20px;">
+    <h2 style="color: white;">Element #`+ selected + `</h2>
+    <p style="color: white;">Type: `+ json.elements[selected].type + `</p>
+    <div class="mui-textfield mui-textfield--float-label">
+        <input type="text" value="`+ json.elements[selected].content + `" id="tbe-` + selected + `"/>
         <label>Content</label>
     </div>
-    <button class="mui-btn mui-btn--accent" style="margin-left: 50px" onclick="onEditContent(`+selected+`, document.getElementById('tbe-`+selected+`').value)">Change</button>
+    <div>
+        <button class="mui-btn mui-btn--accent" onclick="onEditContent(`+ selected + `, document.getElementById('tbe-` + selected + `').value)">Change</button>
+        <br/>
+        <button class="mui-btn mui-btn--accent" onclick="onRemoveElement(`+ selected + `)">Remove</button>
+    </div>
 </div>`
+            }
         } else {
-            tb.innerHTML = "Nothing selected"
+            tb.innerHTML = `<div style="padding-left: 20px; padding-right: 20px;"><h3 style="color: white;">Nothing selected</h3></div>`
         }
+    }
+
+    function onPreview() {
+        window.location = "preview.html?path=" + path
     }
 </script>
 

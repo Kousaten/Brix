@@ -1,4 +1,10 @@
-function render(obj, isPreview) {
+const { shell } = require("electron")
+
+function openExternal(url) {
+    shell.openExternal(url)
+}
+
+function render(obj) {
     var elements = obj.elements
     var sb = new StringBuffer();
     for (var i in elements) {
@@ -12,6 +18,8 @@ function render(obj, isPreview) {
             sb.append("<div class='brp-element'><h2>"+elements[i].content+"</h2></div>")
         } else if (elements[i].type=="small-title") {
             sb.append("<div class='brp-element'><h3>"+elements[i].content+"</h3></div>")
+        } else if (elements[i].type=="hyperlink") {
+            sb.append("<div class='brp-element'><a href='javascript:openExternal(&quot;"+elements[i].contentA+"&quot;)'>"+elements[i].contentT+"</a></div>")
         }
     }
     return sb.toString()
@@ -29,7 +37,7 @@ function activeEvents() {
             } else {
                 el.style.border = "1px solid black"
                 changeSelected(index)
-                if (lastSelected!=undefined) {
+                if (lastSelected!=undefined&&lastSelected!=null) {
                     es[lastSelected].style.border = "none"
                 }
             }

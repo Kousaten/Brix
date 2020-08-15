@@ -11,6 +11,7 @@
 	<script src="js/file-utils.js"></script>
 	<script src="js/properties.js"></script>
 	<script src="js/http.js"></script>
+	<script src="js/constraints.js"></script>
 	<title>Brix</title>
 	<script>
 		checkProperty()
@@ -80,7 +81,7 @@
 			<span class="mui--text-title">Recent</span>
 		</div>
 		<div class="mui-divider"></div>
-		<p style="color: gray;">This function is not currently supported.</p>
+		<p style="color: gray; padding-left: 10px;">This function is not currently supported.</p>
 	</div>
 	<header id="header">
 		<div class="mui-appbar mui--appbar-line-height">
@@ -101,18 +102,22 @@
 	<div id="content-wrapper">
 		<div class="mui--appbar-height"></div>
 		<div class="mui-container-fluid">
-			<br />
-			<br />
-			<br />
-			<br />
 			<div style="text-align:center">
-				<button class="mui-btn mui-btn--small mui-btn--primary" onclick="onNewDocument()">New
-					Document</button><br />
-				<button class="mui-btn mui-btn--small mui-btn--primary" onclick="onOpenDocument()">Open
-					Document</button><br />
-				<button class="mui-btn mui-btn--small mui-btn--primary" onclick="onOpenAboutPage()">About</button><br />
-				<button class="mui-btn mui-btn--small mui-btn--primary"
-					onclick="onOpenSettingPage()">Settings</button><br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<img src="assets/Brix.png" width="150" height="150"></img>
+				<h1>Brix</h1>
+				<h4 style="color: gray;">Version <script>document.write(version.substring(1, version.length).toUpperCase())</script></h4>
+				<br/><br/>
+				<button class="mui-btn mui-btn--primary" style="background: #2a2a2e; width: 18%;" onclick="onNewDocument()">New
+					Document</button><br/>
+				<button class="mui-btn mui-btn--primary" style="background: #2a2a2e; width: 18%;" onclick="onOpenDocument()">Open
+					Document</button><br/>
+				<button class="mui-btn mui-btn--primary" style="background: #2a2a2e; width: 18%;" onclick="onOpenAboutPage()">About</button><br/>
+				<button class="mui-btn mui-btn--primary" style="background: #2a2a2e; width: 18%;" 
+					onclick="onOpenSettingPage()">Settings</button><br/>
 			</div>
 		</div>
 		<script>
