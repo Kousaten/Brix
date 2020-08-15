@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="muicss/mui.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/editor.css" rel="stylesheet" type="text/css" />
+    <script src="muicss/mui.min.js"></script>
+    <script src="js/rendering.js"></script>
+    <script src="js/file-utils.js"></script>
+    <script src="js/string-buffer.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<script>
+    var s = window.location.search
+    var path = s.substr(6, s.length)
+    var json = JSON.parse(new File(path).read())
+
+    var spl = path.split("/")
+    var doc = spl[spl.length - 1]
+</script>
+
+<body>
+    <div class="mui-appbar" style="padding-left: 50px; padding-right: 50px;">
+        <table width="100%">
+            <tr style="vertical-align:middle;">
+                <td class="mui--appbar-height">
+                    <div class="tooltip" style="float: left;">
+                        <button onclick="onBack()" class="mui-btn mui-btn--small"
+                            style="background: transparent; color: white;"><i class="material-icons">arrow_back</i></button><span
+                            class="tooltiptext">Back</span>
+                    </div>
+                    <div float="right">
+                        <p style="font-size: 25px;">Preview</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="content">
+        Loading...
+    </div>
+    <footer>
+        <div class="mui-container mui--text-center mui--text-bottom">
+            <div>
+                <div style="float: left;">
+                    <script>document.write(doc)</script>
+                </div>
+                <div style="float: left; padding-left: 20px;">Preview</div>
+                <div style="width: auto;"></div>
+                <div style="float: right;" id="elements">
+                    <script>document.write(json.elements.length)</script> Elements</div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+<script>
+    function onBack() {
+        window.location = "editor.html?path="+path
+    }
+    document.getElementById("content").innerHTML = render(json, true)
+</script>
+
+</html>
