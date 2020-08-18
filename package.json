@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/kousaten/brix/issues"
   },
-  "homepage": "https://github.com/kousaten/brix#readme"
+  "homepage": "https://github.com/kousaten/brix#readme",
+  "devDependencies": {
+    "electron": "^9.2.0"
+  }
 }
