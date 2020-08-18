@@ -42,9 +42,9 @@ All versions of Brix can be downloaded and installed in the release.
 
 This project is developed using [node](nodejs.org) and [npm](npmjs.org).
 
-- Download from Node.js official website and install Node.js on your computer, use the following command to install electron globally:
-    `npm install electron -g`
+- Download from Node.js official website and install Node.js on your computer
 - Open the terminal and use the cd command to enter the project directory
+- use the following command to install: `npm install`
 - Type `npm start` to start Brix
 
 ## Tutorial

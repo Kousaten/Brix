@@ -42,9 +42,9 @@ Brix目前最新的快照版本为20w31a，但功能近乎残废，可以等待�
 
 本项目使用 [node](nodejs.org) 与 [npm](npmjs.org) 开发。
 
-- 从Node.js官网下载并在你的电脑上安装Node.js，使用以下命令来全局安装electron：
-    `npm install electron -g`
+- 从Node.js官网下载并在你的电脑上安装Node.js
 - 打开终端，使用cd命令进入项目目录
+- 使用以下命令来安装：`npm install`
 - 输入`npm start`来启动Brix
 
 ## 使用教程
