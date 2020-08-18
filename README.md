@@ -73,13 +73,13 @@ Refer to [Kousaten Documents](https://kousaten.github.io/) for some basic usage 
 
 - assets/: Resource files that need to be used such as the project or the documents in the project
 - css/: CSS files used by HTML files in the project
-- js/: JavaScript files that need to be used in HTML files in the project
+- src/: JavaScript files that need to be used in HTML files in the project
 - muicss/: The project references the muicss library, in order to load quickly, put the muicss output file into this folder separately
 - mdui/: The project references the mdui library, in order to load quickly, put the muicss output file into this folder separately
 
 ## How to contribute
 
-- Reference [CONTRIBUTING.md](https://github.com/BobAnkh/LinuxBeginner/blob/master/CONTRIBUTING.md)
+- Reference to BobAnkh's [CONTRIBUTING.md](https://github.com/BobAnkh/LinuxBeginner/blob/master/CONTRIBUTING.md)(中文版) or [CONTRIBUTING.md](https://github.com/BobAnkh/auto-generate-changelog/blob/master/CONTRIBUTING.md)(English Version)
 
 ### Contributors
 
