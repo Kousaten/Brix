@@ -76,15 +76,17 @@ Refer to [Kousaten Documents](https://kousaten.github.io/) for some basic usage 
 - src/: JavaScript files that need to be used in HTML files in the project
 - muicss/: The project references the muicss library, in order to load quickly, put the muicss output file into this folder separately
 - mdui/: The project references the mdui library, in order to load quickly, put the muicss output file into this folder separately
+- test/: The unit test scripts' of the project
 
 ## How to contribute
 
-- Reference to BobAnkh's [CONTRIBUTING.md](https://github.com/BobAnkh/LinuxBeginner/blob/master/CONTRIBUTING.md)(中文版) or [CONTRIBUTING.md](https://github.com/BobAnkh/auto-generate-changelog/blob/master/CONTRIBUTING.md)(English Version)
+- Reference to [Kousaten Official Document](https://kousaten.github.io/#/Contributing)
 
 ### Contributors
 
 - [ResetPower](https://github.com/ResetPower)
 - [BobAnkh](https://github.com/BobAnkh)
+- [shiyuanjieyi](https://github.com/Thinker-Zhang)
 
 ## LICENSE
 

@@ -1,6 +1,7 @@
 function StringBuffer() {
     this.__strings__ = [];
 };
+
 StringBuffer.prototype.append = function (str) {
     this.__strings__.push(str);
     return this;
