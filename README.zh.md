@@ -76,15 +76,17 @@ Brix目前最新的快照版本为20w31a，但功能近乎残废，可以等待�
 - js/ : 项目中HTML文件需要使用到的JavaScript文件
 - muicss/ : 项目引用了muicss库，为了快速加载，将muicss的输出文件单独放入该文件夹中
 - mdui/ : 项目引用了mdui库，为了快速加载，将mdui的输出文件单独放入该文件夹中
+- test/ : 项目的单元测试脚本
 
 ## 如何贡献
 
-- 参考 [CONTRIBUTING.md](https://github.com/BobAnkh/LinuxBeginner/blob/master/CONTRIBUTING.md)
+- 参考 [交差点官方文档](https://kousaten.github.io/#/Contributing)
 
 ### 贡献者
 
 - [ResetPower](https://github.com/ResetPower)
 - [BobAnkh](https://github.com/BobAnkh)
+- [shiyuanjieyi](https://github.com/Thinker-Zhang)
 
 ## 使用许可
 
